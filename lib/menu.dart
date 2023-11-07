@@ -4,9 +4,9 @@ class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key}) : super(key: key);
   
   final List<ShopItem> items = [
-    ShopItem("Lihat Item", Icons.checklist),
-    ShopItem("Tambah Item", Icons.add_shopping_cart),
-    ShopItem("Logout", Icons.logout),
+    ShopItem("Lihat Item", Icons.checklist, Colors.blue),
+    ShopItem("Tambah Item", Icons.add_shopping_cart, const Color.fromARGB(255, 65, 133, 167)),
+    ShopItem("Logout", Icons.logout, Colors.red),
   ];
 
   
@@ -31,7 +31,7 @@ class MyHomePage extends StatelessWidget {
                 padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                 // Widget Text untuk menampilkan tulisan dengan alignment center dan style yang sesuai
                 child: Text(
-                  'PBP Shop', // Text yang menandakan toko
+                  'PBP Assignment', // Text yang menandakan toko
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 30,
@@ -64,8 +64,9 @@ class MyHomePage extends StatelessWidget {
 class ShopItem {
   final String name;
   final IconData icon;
+  final Color color;
 
-  ShopItem(this.name, this.icon);
+  ShopItem(this.name, this.icon, this.color);
 }
 
 class ShopCard extends StatelessWidget {
@@ -76,7 +77,7 @@ class ShopCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.indigo,
+      color: item.color,
       child: InkWell(
         // Area responsive terhadap sentuhan
         onTap: () {
