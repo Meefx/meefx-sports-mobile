@@ -6,8 +6,8 @@
 **Kelas: PBP C**
 
 # Daftar Isi
-* [Tugas 7](#Tugas-8:-Flutter-Navigation,-Layouts,-Forms,-and-Input-Elements)
-* [Tugas 8](#Tugas-7:-Elemen-Dasar-Flutter)
+* [Tugas 7](#tugas-7-elemen-dasar-flutter)
+* [Tugas 8](#tugas-8-flutter-navigation-layouts-forms-and-input-elements)
 
 # Tugas 8: Flutter Navigation, Layouts, Forms, and Input Elements
 
