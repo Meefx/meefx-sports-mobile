@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:meefx_sports/screens/menu.dart';
 import 'package:meefx_sports/widgets/left_drawer.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 
 
 class InventoryFormPage extends StatefulWidget {
@@ -9,27 +14,27 @@ class InventoryFormPage extends StatefulWidget {
     State<InventoryFormPage> createState() => _InventoryFormPageState();
 }
 
-class Item {
-  final String name;
-  final int amount;
-  final String description;
+// class Item {
+//   final String name;
+//   final int amount;
+//   final String description;
 
-  Item({
-    required this.name,
-    required this.amount,
-    required this.description,
-  });
-}
+//   Item({
+//     required this.name,
+//     required this.amount,
+//     required this.description,
+//   });
+// }
 
-class ItemInventory {
-  static final List<Item> _items = [];
+// class ItemInventory {
+//   static final List<Item> _items = [];
 
-  static void addItem(Item item) {
-    _items.add(item);
-  }
+//   static void addItem(Item item) {
+//     _items.add(item);
+//   }
 
-  static List<Item> get items => _items;
-}
+//   static List<Item> get items => _items;
+// }
 
 class _InventoryFormPageState extends State<InventoryFormPage> {
     final _formKey = GlobalKey<FormState>();
@@ -38,6 +43,7 @@ class _InventoryFormPageState extends State<InventoryFormPage> {
     String _description = "";
     @override
     Widget build(BuildContext context) {
+        final request = context.watch<CookieRequest>();
         return Scaffold(
           appBar: AppBar(
             title: const Center(
@@ -48,7 +54,6 @@ class _InventoryFormPageState extends State<InventoryFormPage> {
             backgroundColor: Colors.indigo,
             foregroundColor: Colors.white,
           ),
-          // TODO: Tambahkan drawer yang sudah dibuat di sini
           drawer: LeftDrawer(),
           body: Form(
             key: _formKey,
@@ -89,7 +94,6 @@ class _InventoryFormPageState extends State<InventoryFormPage> {
                           borderRadius: BorderRadius.circular(5.0),
                         ),
                       ),
-                      // TODO: Tambahkan variabel yang sesuai
                       onChanged: (String? value) {
                         setState(() {
                           _amount = int.parse(value!);
@@ -118,7 +122,6 @@ class _InventoryFormPageState extends State<InventoryFormPage> {
                       ),
                       onChanged: (String? value) {
                         setState(() {
-                          // TODO: Tambahkan variabel yang sesuai
                           _description = value!;
                         });
                       },
@@ -139,43 +142,34 @@ class _InventoryFormPageState extends State<InventoryFormPage> {
                           backgroundColor:
                               MaterialStateProperty.all(Colors.indigo),
                         ),
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            ItemInventory.addItem(Item(
-                              name: _name,
-                              amount: _amount,
-                              description: _description,
-                            ));
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: const Text('Item berhasil tersimpan'),
-                                  content: SingleChildScrollView(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text('Nama: $_name'),
-                                        Text('Jumlah barang: $_amount'),
-                                        Text('Deskripsi: $_description'),
-                                        // TODO: Munculkan value-value lainnya
-                                      ],
-                                    ),
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      child: const Text('OK'),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          _formKey.currentState!.reset();
-                          }
+                        onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                                // Kirim ke Django dan tunggu respons
+                                final response = await request.postJson(
+                                "https://muhammad-fakhri25-tugas.pbp.cs.ui.ac.id/create-flutter/",
+                                jsonEncode(<String, String>{
+                                    'name': _name,
+                                    'amount': _amount.toString(),
+                                    'description': _description,
+                                }));
+                                if (response['status'] == 'success') {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(
+                                    content: Text("Item baru berhasil disimpan!"),
+                                    ));
+                                    // ignore: use_build_context_synchronously
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => MyHomePage()),
+                                    );
+                                } else {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(
+                                        content:
+                                            Text("Terdapat kesalahan, silakan coba lagi."),
+                                    ));
+                                }
+                            }
                         },
                         child: const Text(
                           "Save",

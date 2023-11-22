@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:meefx_sports/screens/list_item.dart';
 import 'package:meefx_sports/screens/menu.dart';
 import 'package:meefx_sports/screens/inventory_form.dart';
-import 'package:meefx_sports/screens/inventory_list.dart';
+// import 'package:meefx_sports/screens/inventory_list.dart';
 
 
 class LeftDrawer extends StatelessWidget {
@@ -13,7 +14,6 @@ class LeftDrawer extends StatelessWidget {
       child: ListView(
         children: [
           const DrawerHeader(
-            // TODO: Bagian drawer header
               decoration: BoxDecoration(
                 color: Colors.indigo,
               ),
@@ -30,7 +30,6 @@ class LeftDrawer extends StatelessWidget {
                   ),
                   Padding(padding: EdgeInsets.all(10)),
                   Text("Catat seluruh keperluan belanjamu di sini!",
-                      // TODO: Tambahkan gaya teks dengan center alignment, font ukuran 15, warna putih, dan weight biasa
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 15,
@@ -41,7 +40,6 @@ class LeftDrawer extends StatelessWidget {
                 ],
               ),
             ),
-          // TODO: Bagian routing
           ListTile(
               leading: const Icon(Icons.home_outlined),
               title: const Text('Halaman Utama'),
@@ -59,10 +57,6 @@ class LeftDrawer extends StatelessWidget {
               title: const Text('Tambah Item'),
               // Bagian redirection ke ShopFormPage
               onTap: () {
-                /*
-                TODO: Buatlah routing ke ShopFormPage di sini,
-                setelah halaman ShopFormPage sudah dibuat.
-                */
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
@@ -71,21 +65,16 @@ class LeftDrawer extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.checklist),
-              title: const Text('Lihat Item'),
-              // Bagian redirection ke ShopFormPage
+              leading: const Icon(Icons.shopping_basket),
+              title: const Text('Daftar Item'),
               onTap: () {
-                /*
-                TODO: Buatlah routing ke ShopFormPage di sini,
-                setelah halaman ShopFormPage sudah dibuat.
-                */
-                Navigator.push(
+                  // Route menu ke halaman Item
+                  Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => ItemListPage(),
-                  ));
+                  MaterialPageRoute(builder: (context) => const ItemPage()),
+                  );
               },
-            ),
+          ),
         ],
       ),
     );

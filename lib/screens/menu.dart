@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:meefx_sports/screens/inventory_form.dart';
-import 'package:meefx_sports/screens/inventory_list.dart';
 import 'package:meefx_sports/widgets/left_drawer.dart';
 import 'package:meefx_sports/widgets/item_card.dart';
 
